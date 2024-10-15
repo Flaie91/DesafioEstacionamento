@@ -15,11 +15,23 @@ namespace DesafioFundamentos.Models
         public void AdicionarVeiculo()
         {
             // TODO: Pedir para o usuário digitar uma placa (ReadLine) e adicionar na lista "veiculos"
-            // *IMPLEMENTE AQUI*
-            Console.WriteLine("Digite a placa do veículo para estacionar:");
-            string placa = Console.ReadLine();
-            veiculos.Add(placa.ToUpper());
-            Console.WriteLine($"O veículo {placa} foi estacionado com sucesso.");      
+            
+            Console.WriteLine("Digite a placa do veículo para estacionar (Só letras e Números):");
+            string? entrada = Console.ReadLine(); // pode aceitar null
+
+            //if (entrada != null)  //estava passando vazio 
+
+            if (!string.IsNullOrEmpty(entrada)) // só executa se não for null
+            {
+                string placa = entrada;
+                
+                veiculos.Add(placa.ToUpper());
+                Console.WriteLine($"O veículo {placa.ToUpper()} foi estacionado com sucesso.");      
+            }
+            else
+            {
+                Console.WriteLine("Entrada inválida. Por favor, tente novamente.");
+            }
                  
         }
 
@@ -29,40 +41,48 @@ namespace DesafioFundamentos.Models
 
             // Pedir para o usuário digitar a placa e armazenar na variável placa
             // *IMPLEMENTE AQUI*
-            string placa = Console.ReadLine().ToUpper();
+            string? entrada = Console.ReadLine();
 
-            // Verifica se o veículo existe
-            if (veiculos.Any(x => x == placa))
-            {
-                Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
-
-                // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
-                // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
-                // *IMPLEMENTE AQUI*
-                
-                
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
-                // Usando TryParse para garantir a conversão correta
-                if (int.TryParse(Console.ReadLine(), out int horas))
+            if (entrada != null)
+            {   
+                string placa = entrada.ToUpper(); // Converte para uppercase
+                // Verifica se o veículo existe
+                if (veiculos.Any(x => x == placa))
                 {
-                    decimal valorTotal = precoInicial + (precoPorHora * horas);
-                    veiculos.Remove(placa); // Remove a placa diretamente
+                    Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
 
-                Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal:F2}");
-                 }
+                    // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
+                    // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
+                    // *IMPLEMENTE AQUI*
+                    
+                    
+                    // TODO: Remover a placa digitada da lista de veículos
+                    // *IMPLEMENTE AQUI*
+                    // Usando TryParse para garantir a conversão correta
+                    if (int.TryParse(Console.ReadLine(), out int horas))
+                    {
+                        decimal valorTotal = precoInicial + (precoPorHora * horas);
+                        veiculos.Remove(placa); // Remove a placa diretamente
+
+                        Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal:F2}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Entrada inválida para horas. Por favor, digite um número inteiro.");
+                    }   
+
+                }
                 else
                 {
-                    Console.WriteLine("Entrada inválida para horas. Por favor, digite um número inteiro.");
-                }   
-
+                    Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
+                }
+                
             }
             else
             {
-                Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
+                   Console.WriteLine("Entrada inválida. Por favor, tente novamente.");
             }
         }
-
         public void ListarVeiculos()
         {
             // Verifica se há veículos no estacionamento
